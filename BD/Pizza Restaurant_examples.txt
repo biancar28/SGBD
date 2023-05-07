@@ -1,0 +1,230 @@
+--Ex12.
+
+--Afisati numele si prenumele clientilor care nu au comandat sides si care au fost ajutati de chelneri cu salariul>min salariului de chelner
+
+select concat(concat(c.first_name,' '),c.last_name) as nume
+from customers c, orders o
+where c.customer_id= o.customer_id
+and o.order_id in(select cn.order_id
+                from contine cn
+                where cn.side_id is null)
+and o.employee_id in (select e.employee_id
+                    from employees e, jobs j
+                    where e.job_id in (select j.job_id
+                                       from jobs j
+                                       where upper(job_title)='CHELNER')
+                    and e.salary> (select avg(j.min_salary)
+                                     from jobs j
+                                     where upper(job_title)='CHELNER'))
+order by c.customer_id;
+
+
+
+--Afisati numarul bucatarilor si al asistentilor de bucatari care au pregatit 
+--pizza pentru comenzi plasate in 2020 intre lunile februarie si august, 
+--grupat in functie de numele jobului.
+
+with aux as(select p.employee_id as angajati
+            from pizza p, contine cn, orders o
+            where cn.pizza_id=p.pizza_id
+            and cn.order_id = o.order_id
+            and o.order_date_time between '01-FEB-20 00:00:00' and '01-SEP-20 00:00:00')
+select j.job_title,count(*) numar
+from employees e, jobs j,aux
+where e.employee_id = aux.angajati
+and e.job_id=j.job_id
+group by j.job_title;
+
+
+
+--Afisati codul comenzilor, codul pizzei sau un mesaj daca nu exista, codul 
+--alimentului sau un mesaj daca nu exista si costul comenzii pentru comenzile 
+--plasate in luna februarie.
+
+select cn.order_id as Comanda,NVL2(cn.pizza_id, cn.pizza_id, 'Nu este pizza in comanda') as Pizza, 
+NVL2(cn.side_id, cn.side_id, 'Nu este side in comanda')as Side, r.receipt_amount as Cost
+from contine cn, orders o, receipts r
+where cn.order_id=o.order_id
+and r.order_id=o.order_id
+and to_char(o.order_date_time,'MON')='FEB'
+order by 1;
+
+
+--Să se afişeze numele, data angajării, titlul job-ului, salariul şi o coloană reprezentând salariul 
+--după ce se aplică o mărire, astfel: pentru bucatari creşterea este de 25%, pentru 
+--asistentii de bucatari creşterea este de 17%, iar salariul chelnerilor creşte cu 13%. 
+--Pentru restul salariatilor valoarea nu se modifică.
+
+select first_name||' '||last_name as Nume, e.hire_date as Data_angajarii, 
+j.job_title as Nume_job, e.salary as Salariu,
+decode(j.job_title,
+'Bucatar', salary + (25/100)*salary,
+'Asistent de bucatar', salary + (17/100)*salary,
+'Chelner', salary + (13/100)*salary,
+salary) as "Salariu marit"
+from employees e, jobs j
+where e.job_id = j.job_id;
+
+
+
+--Afisati pentru fiecare pizza, numele, dimensiunea, tipul de blat si sosul printr-un mesaj.
+
+select z.pizza_name as Pizza, s.size_description as Dimensiune, c.crust_type as Blat,
+case
+    when lower(ss.souce_id) = 'sw' then 'Pizza se serveste cu sos dulce'
+    when lower(ss.souce_id) = 'hot' then 'Pizza se serveste cu sos picant'
+    when lower(ss.souce_id) = 'gar' then 'Pizza se serveste cu sos de usturoi'
+    when lower(ss.souce_id) = 'sch' then 'Pizza se serveste cu sos sweet chilli'
+    when lower(ss.souce_id) = 'bbq' then 'Pizza se serveste cu sos barbeque'
+    else 'Pizza nu se serveste cu sos'
+end as Sos
+from pizza z, se_serveste_cu ss, sizes s, crusts c
+where z.crust_id=c.crust_id
+and z.size_id=s.size_id
+and z.pizza_id=ss.pizza_id(+)
+order by 1;
+
+
+--Ex13.
+
+--Mariti cu 1000 salariul tuturor chelnerilor.
+
+update employees e
+set e.salary = e.salary+1000
+where e.job_id in (select j.job_id
+                from jobs j
+                where lower(job_title)='chelner');--3 rows updated.
+
+            
+            
+--Mariti nota de plata cu 3,5 pentru comenzile care contin Choco Pizza.
+
+update receipts r
+set r.receipt_amount= r.receipt_amount+3.5
+where r.order_id=(select o.order_id
+                  from orders o, contine cn
+                  where o.order_id=cn.order_id
+                  and cn.side_id='CP');--1 row updated.
+
+
+
+--Schimbati codul jobului pentru casierii cu salariu mai mare de 15000                  
+
+update employees e
+set e.job_id='DEL_2'
+where e.job_id in (select j.job_id
+                from jobs j
+                where j.job_title='Casier')
+and e.salary>15000;--1 row updated.
+
+
+
+--Stergeti toate pizzele care nu au fost comandate.
+
+delete from pizza
+where pizza_id not in(select pizza_id
+                      from contine
+                      where pizza_id is not null);--3 rows deleted.
+
+
+
+--Stergeti toate bonurile care costa mai mult de 50 de lei si au fost emise incepand cu ora 17.
+
+delete from (select r.receipt_number
+             from receipts r, orders o
+             where o.order_id=r.order_id
+             and r.receipt_amount>50
+             and to_char(o.order_date_time, 'HH24')>16);--3 rows deleted.
+        
+        
+           
+--Stergeti toti clientii care comanda in restaurant care s-au asezat la mese cu mai putin de 3 locuri.
+
+delete from in_customers i
+where i.table_id in (select t.table_id
+                     from tables t, in_customers c
+                     where c.table_id=t.table_id
+                     and t.number_seats<3);--2 rows deleted.
+                     
+                     
+--Ex16.
+
+--Afisati pentru fiecare comanda, id-ul, nota de plata, numele pizzei, 
+--pretul pizzei si topingul extra pe care il are
+
+select o.order_id as Comanda, r.receipt_amount as Nota_de_plata, z.pizza_name as Pizza, 
+z.pizza_price as Pret_pizza, t.topping_name as Toping
+from pizza z, orders o, contine cn, receipts r, extra_toppings t, are_in_plus a
+where t.topping_id(+)=a.topping_id
+and a.pizza_id(+)=z.pizza_id
+and z.pizza_id(+)=cn.pizza_id
+and cn.order_id=o.order_id
+and o.order_id=r.order_id
+order by 1;
+
+
+
+--Sa se obtina codul pizzelor care contin toate topingurile extra care se termina cu i
+
+select distinct pizza_id
+from are_in_plus a
+where not exists(
+    (select topping_id
+    from extra_toppings p
+    where topping_name like '%i')
+    minus
+    (select p.topping_id
+    from extra_toppings p, are_in_plus b
+    where p.topping_id=b.topping_id
+    and b.pizza_id=a.pizza_id));
+    
+    
+    
+--Sa se obtina codul sosurilor care se servesc cu toate pizzele pregatite de angajatul cu codul 111
+
+select distinct souce_id
+from se_serveste_cu a
+where not exists
+    (select 1
+    from pizza p
+    where employee_id='111'
+    and not exists
+        (select 'x'
+        from se_serveste_cu b
+        where p.pizza_id=b.pizza_id
+        and b.souce_id=a.souce_id));
+
+
+
+--Ex17.
+
+--Anterior
+
+select *
+from (select *
+      from (select * 
+            from (select delivery_id, duration
+                  from deliveries)R4
+            where duration>15)R5
+      where duration<35)R6,
+      (select customer_id, first_name, last_name, delivery_id
+       from (select *
+             from (select customer_id, first_name, last_name, phone_number, delivery_id
+                   from online_customers)R1
+             where R1.phone_number like '70%')R2)R3
+where R3.delivery_id=R6.delivery_id;
+
+
+--Ulterior
+
+select *
+from (select delivery_id, duration
+      from (select *
+            from deliveries
+            where duration>15
+            and duration<35)R3)R4,
+      (select customer_id, first_name, last_name, delivery_id
+       from (select *
+             from online_customers
+             where phone_number like '70%')R1)R2
+where R2.delivery_id=R4.delivery_id;
