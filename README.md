@@ -1,4 +1,4 @@
-# SGBD
+# Database Management
 Pizza Restaurant database management
   - ERD diagram
   - conceptual diagram
