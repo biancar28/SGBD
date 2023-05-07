@@ -1,0 +1,1138 @@
+create table Jobs (job_id char(10) constraint PK_job primary key,
+                   job_title varchar2(30) constraint job_title_const NOT NULL,
+                   min_salary number(8) constraint min_salary_job NOT NULL,
+                   max_salary number(8) constraint max_salary_job NOT NULL);
+                   
+insert into jobs
+values('MG', 'Manager', 70000, 85000);
+
+insert into jobs
+values('CT', 'Contabil', 20000, 30000);
+
+insert into jobs
+values('CH', 'Bucatar', 65000, 70000);
+
+insert into jobs
+values('ASC', 'Asistent de bucatar', 40000, 50000);
+
+insert into jobs
+values('W', 'Chelner', 15000, 25000);
+
+insert into jobs
+values('CAS', 'Casier', 10000, 20000);
+
+insert into jobs
+values('SER', 'Om de serviciu', 10000, 13000);
+
+insert into jobs
+values('DEL', 'Curier', 13000, 17000);
+
+
+
+create table Locations (location_id number(3) constraint PK_location primary key,
+                        city varchar2(30) constraint city_loc not null,
+                        street_name varchar2(40) constraint street_name_loc not null,
+                        postal_code number(10) constraint postl_code_loc not null,
+                        building_number number(3),
+                        apartment_number number(3));
+                        
+                        
+insert into locations
+values(1, 'Ploiesti', 'Gornistilor', 10455, 130, 6);
+
+insert into locations
+values(2, 'Ploiesti', 'Zamora', 10305, 43, 2);
+
+insert into locations
+values(3, 'Ploiesti', 'Beius', 10080, 13,null);
+
+insert into locations
+values(4, 'Ploiesti', 'Grindului', 10045, 56, 9);
+
+insert into locations
+values(5, 'Ploiesti', 'Porumbitei', 10235, 160, 4);
+
+insert into locations
+values(6, 'Ploiesti', 'Vi?inilor', 10897, 29, 14);
+
+insert into locations
+values(7, 'Ploiesti', 'Regimentului', 10009, 49, null);
+
+insert into locations
+values(8, 'Ploiesti', '8 Martie', 10570, 68, null);
+
+insert into locations
+values(9, 'Ploiesti', 'Albinei', 10056, 98, 10);
+
+insert into locations
+values(10, 'Ploiesti', 'Cameliei', 10017, 142, null);
+
+insert into locations
+values(11, 'Ploiesti', 'Dumbravei', 10115, 124, 5);
+
+insert into locations
+values(12, 'Ploiesti', 'Fluturilor', 10408, 119, 107);
+
+insert into locations
+values(13, 'Ploiesti', 'Gheorghe Doja', 10023, 52, 1);
+
+insert into locations
+values(14, 'Ploiesti', 'Furnica', 10222, 407, 3);
+
+insert into locations
+values(15, 'Ploiesti', 'Ion Heliade', 10670, 35, null);
+
+insert into locations
+values(16, 'Ploiesti', 'Malu Rosu', 10440, 170, 7);
+
+insert into locations
+values(17, 'Ploiesti', 'Miorita', 10013, 14, null);
+
+insert into locations
+values(18, 'Ploiesti', 'Negoiu', 10079, 6, null);
+
+insert into locations
+values(19, 'Ploiesti', 'Jupiter', 10005, 233, 8);
+
+insert into locations
+values(20, 'Ploiesti', 'Cascade', 10555, 66, 12);
+
+
+                   
+create table Employees (employee_id number(4) constraint PK_employee primary key,
+                       first_name varchar2(20) constraint last_name_emp not null,
+                       last_name varchar2(20) constraint first_name_emp not null,
+                       phone_number number(10) unique,
+                       email varchar2(40) unique,
+                       location_id number(30) constraint FK_emp_1 references Locations(location_id),
+                       hire_date date constraint hire_date_emp not null,
+                       job_id char(10) constraint FK_emp_2 references Jobs (job_id),
+                       salary number(8,2) constraint salary_emp not null);
+                       
+                       
+insert into employees
+values(101, 'Evelyn', 'Harper', 0785908519,'evelynH@gmail.com', 8, '06-NOV-00', 'MG', 75000);
+
+insert into employees
+values(102, 'Benjamin', 'Garcia', 0770874084,'benjG@gmail.com', 12, '16-SEP-17', 'W', 25000);
+
+insert into employees
+values(103, 'Ava', 'Brown', 0709472439,'avaB@gmail.com', 4, '04-MAR_20', 'W', 15000);
+
+insert into employees
+values(104, 'Isabella', 'Smith', 0774080650,'isabellaS@gmail.com', 14, '25-NOV-96', 'CH', 70000);
+
+insert into employees
+values(105, 'Amelia', 'Hill', 0727314772,'ameliaH@gmail.com', 18, '27-DEC-10', 'DEL', 16000);
+
+insert into employees
+values(106, 'Sophia', 'Wlliams', 0760803376,'sophiaW@gmail.com', 9, '24-JUL-15', 'W', 18000);
+
+insert into employees
+values(107, 'Charlotte', 'Moore', 0767231470,'chrM@gmail.com', 15, '28-OCT_04', 'SER', 11000);
+
+insert into employees
+values(108, 'Emma', 'Donovan', 0746107617,'emmaD@gmail.com', 17, '13-NOV-15', 'ASC', 45000);
+
+insert into employees
+values(109, 'Oliver', 'Carter', 0781361168,'oliverC@gmail.com', 2, '11_MAR-11', 'CT', 30000);
+
+insert into employees
+values(110, 'Thodore', 'Miller', 0702116148,'theoM@gmail.com', 13, '06-FEB-07', 'CAS', 13000);
+
+insert into employees
+values(111, 'Lucas', 'Davis', 0720186396,'lucasD@gmail.com', 1, '03-FEB-99', 'ASC', 50000);
+
+insert into employees
+values(112, 'Robert', 'Lewis', 0738787442,'robertL@gmail.com', 10, '03-APR-99', 'DEL', 15000);
+
+insert into employees
+values(113, 'Henry', 'Andrews', 0719125076,'henryA@gmail.com', 11, '10-JUN-04', 'CH', 65000);
+
+insert into employees
+values(114, 'Mia', 'Thomas', 0775596028,'miaT@gmail.com', 6, '09-MAY-97', 'CAS', 19000);
+
+
+                       
+create table Deliveries (delivery_id number(5) constraint PK_deliv primary key,
+                         employee_id number(4) constraint FK_deliv references Employees (employee_id),
+                         duration number(2) constraint duration_deliv not null);
+                         
+                   
+insert into deliveries
+values(21, 112, 31);
+
+insert into deliveries
+values(22, 105, 43);
+
+insert into deliveries
+values(23, 105, 26);
+
+insert into deliveries
+values(24, 112, 17);
+
+insert into deliveries
+values(25, 105, 35);
+
+insert into deliveries
+values(26, 112, 14);
+
+
+
+create table Tables (table_id number(2) constraint PK_table primary key,
+                     number_seats number(2) constraint number_seats_table not null);
+                    
+                     
+                     
+insert into tables
+values(1, 4);
+
+insert into tables
+values(2, 2);
+
+insert into tables
+values(3, 6);
+
+insert into tables
+values(4, 4);
+
+insert into tables
+values(5, 2);
+
+
+
+create table Customers (customer_id number(7) constraint PK_customers primary key,
+                        first_name varchar2(20) constraint first_name_cust not null,
+                        last_name varchar2(20) constraint last_name_cust not null);
+                        
+                        
+                        
+insert into Customers
+values(1121, 'Ronald', 'Macias');
+
+insert into Customers
+values(1122, 'Caoimhe', 'Rosario');
+
+insert into Customers
+values(1123, 'Harry', 'Dunne');
+
+insert into Customers
+values(1124, 'Chanice', 'Rollins');
+
+insert into Customers
+values(1125, 'Jayden-Lee', 'Davidson');
+
+insert into Customers
+values(1126, 'Kinga', 'Betts');
+
+insert into Customers
+values(1127, 'Catriona', 'Mclean');
+
+insert into Customers
+values(1128, 'Bradleig', 'Parrish');
+
+insert into Customers
+values(1129, 'Callum', 'Clarkson');
+
+insert into Customers
+values(1130, 'Jaxson', 'Leach');
+
+insert into Customers
+values(1131, 'Jordanne', 'Corona');
+
+insert into Customers
+values(1132, 'Fintan', 'Adkins');
+
+insert into Customers
+values(1133, 'Rea', 'Savage');
+
+insert into Customers
+values(1134, 'Samanta', 'Callahan');
+
+insert into Customers
+values(1135, 'Spencer', 'Wagner');
+
+insert into Customers
+values(1136, 'Karen', 'Willow');
+
+insert into Customers
+values(1137, 'Meghan', 'Dunne');
+
+select * from customers;
+
+
+create table Online_Customers 
+as select * from Customers;
+
+delete online_customers;
+
+alter table Online_Customers
+add location_id number(3)constraint FK_ocust references Locations(location_id);
+
+alter table Online_Customers
+add phone_number number(10) unique;
+
+alter table Online_Customers
+add email char(40) unique;  
+
+alter table Online_Customers
+add delivery_id number(3) constraint FK_ocust_2 references Deliveries(delivery_id);
+
+
+
+insert into Online_Customers
+values(1127, 'Catriona', 'Mclean', 16, 0795051829, 'catrionaM@gmail.com', 24);
+
+insert into Online_Customers
+values(1135, 'Spencer', 'Wagner', 5, 0708182478, 'spencerW@gmaul.com', 22);
+
+insert into Online_Customers
+values(1123, 'Harry', 'Dunne', 3, 0707166155, 'harryD@gmail.com', 21);
+
+insert into Online_Customers
+values(1132, 'Fintan', 'Adkins', 19, 0727985820, 'fintanA@gmail.com', 25);
+
+insert into Online_Customers
+values(1125, 'Jayden-Lee', 'Davidson', 7, 0782989362, 'jaydenD@gmail.com', 23);
+
+insert into Online_Customers
+values(1137, 'Meghan', 'Dunne', 20, 0729006553, 'meghanDD@gmail.com', 26);
+
+
+create table In_Customers 
+as select * from Customers;
+
+delete in_customers;
+
+alter table In_Customers
+add table_id number(2) constraint FK_icust references Tables (table_id);
+
+
+    
+insert into In_Customers
+values(1133, 'Rea', 'Savage', 3);
+
+insert into In_Customers
+values(1126, 'Kinga', 'Betts', 1);
+
+insert into In_Customers
+values(1121, 'Ronald', 'Macias', 2);
+
+insert into In_Customers
+values(1134, 'Samanta', 'Callahan', 2);
+
+insert into In_Customers
+values(1128, 'Bradleig', 'Parrish', 4);
+
+
+           
+create table To_Go_Customers 
+as select * from Customers;
+
+delete to_go_customers;
+
+alter table To_Go_Customers
+add package_number number(4) constraint package_to_go not null;
+
+
+insert into To_Go_Customers
+values(1122, 'Caoimhe', 'Rosario', 11);
+
+insert into To_Go_Customers
+values(1124, 'Chanice', 'Rollins', 12);
+
+insert into To_Go_Customers
+values(1129, 'Callum', 'Clarkson', 13);
+
+insert into To_Go_Customers
+values(1130, 'Jaxson', 'Leach', 14);
+
+insert into To_Go_Customers
+values(1131, 'Jordanne', 'Corona', 15);
+
+
+
+create table Orders (order_id number(4) constraint PK_order primary key,
+                     customer_id number(7) constraint FK_ord_1 references Customers (customer_id),
+                     employee_id number(4)constraint FK_ord_2 references Employees (employee_id),
+                     order_date_time timestamp constraint order_date_time_ord not null);
+              
+               
+                     
+insert into orders
+values(301, 1121, 102, '3-FEB-20 10:30:15');  
+
+insert into orders
+values(302, 1122, 103, '18_FEB-20 10:45:07');
+
+insert into orders
+values(303, 1123, 106, '12_APR_20 11:30:29');
+
+insert into orders
+values(304, 1124, 102, '2-MAY-20 12:30:36');
+
+insert into orders
+values(305, 1125, 103, '8-MAY-20 12:45:18');
+
+insert into orders
+values(306, 1126, 106, '25-JUN-20 13:15:20');
+
+insert into orders
+values(307, 1127, 102, '23-AUG-20 14:30:42');
+
+insert into orders
+values(308, 1128, 103, '2-SEP-20 15:32:09');
+
+insert into orders
+values(309, 1129, 106, '16-SEP-20 16:45:57');
+
+insert into orders
+values(310, 1130, 102, '1-FEB-21 17:00:18');
+
+insert into orders
+values(311, 1131, 103, '11-FEB-21 17:45:02');
+
+insert into orders
+values(312, 1132, 106, '13-APR-21 18:00:11');
+
+insert into orders
+values(313, 1133, 102, '15-MAY-21 19:15:24');
+
+insert into orders
+values(314, 1134, 103, '22-JUL-21 19:45:13');
+
+insert into orders
+values(315, 1135, 106, '17-NOV-21 20:00:55');
+
+insert into orders
+values(316, 1131, 102, '14-DEC-21 9:23:15');
+
+insert into orders
+values(317, 1137, 103, '28-SEP-21 15:10:00');
+
+
+ 
+create table Payment_Methods (payment_id number(5) constraint PK_paym primary key,
+                               payment_method varchar2(5) constraint pay_method not null);
+                               
+                             
+                               
+insert into payment_methods
+values(41, 'cash');
+
+insert into payment_methods
+values(42, 'card');
+
+
+drop sequence id_generator;
+
+create sequence id_generator
+start with 4111
+increment by 1
+maxvalue 100000
+nocycle
+nocache;
+
+create table Receipts (receipt_number number(6) constraint PK_receipt primary key,
+                       order_id number(4) constraint FK_recp_1 references Orders (order_id),
+                       receipt_amount number(8,2) constraint amount_recp not null,
+                       receipt_date_time timestamp constraint date_time_recp not null,
+                       payment_id number(5)constraint FK_recp_2 references Payment_Methods (payment_id));                 
+                       
+                       
+
+insert into receipts
+values(id_generator.nextval, 301, 28.55, '3-FEB-20 12:05:23', 41);
+
+insert into receipts
+values(id_generator.nextval, 302, 93.4, '18_FEB-20 11:10:42', 42);
+
+insert into receipts
+values(id_generator.nextval, 303, 52.05, '12_APR_20 12:08:12', 42);
+
+insert into receipts
+values(id_generator.nextval, 304, 47.45, '2-MAY-20 12:55:04', 41);
+
+insert into receipts
+values(id_generator.nextval, 305, 42.95, '8-MAY-20 13:32:36', 41);
+
+insert into receipts
+values(id_generator.nextval, 306, 58.45, '25-JUN-20 15:37:15', 42);
+
+insert into receipts
+values(id_generator.nextval, 307, 46, '23-AUG-20 15:14:08', 42);
+
+insert into receipts
+values(id_generator.nextval, 308, 12.95, '2-SEP-20 16:51:23', 41);
+
+insert into receipts
+values(id_generator.nextval, 309, 24.75, '16-SEP-20 17:12:38', 41);
+
+insert into receipts
+values(id_generator.nextval, 310, 6.5, '1-FEB-21 17:06:32', 41);
+
+insert into receipts
+values(id_generator.nextval, 311, 26.65, '11-FEB-21 16:01:14 ', 42);
+
+insert into receipts
+values(id_generator.nextval, 312, 70.2, '13-APR-21 18:42:56', 42);
+
+insert into receipts
+values(id_generator.nextval, 313, 58.55, '15-MAY-21 21:14:03', 42);
+
+insert into receipts
+values(id_generator.nextval, 314, 62.9, '22-JUL-21 21:32:47', 42);
+
+insert into receipts
+values(id_generator.nextval, 315, 40.05, '17-NOV-21 20:35:26', 41);
+
+insert into receipts
+values(id_generator.nextval, 316, 53.95, '14-DEC-21 11:21:04', 41);
+
+insert into receipts
+values(id_generator.nextval, 317, 12.95, '28-SEP-21 16:23:12', 42);
+
+select * from receipts;
+                  
+create table Crusts (crust_id char(10) constraint PK_crust primary key,
+                     crust_type varchar2(20) constraint crust_type_ct not null,
+                     crust_price_addition number(3,2));
+                                        
+                     
+insert into crusts
+values('NOR', 'Blat normal', null);
+
+insert into crusts
+values('ITA', 'Blat italian', null);
+
+insert into crusts
+values('PHI', 'Blat Philadelphia', 6.5);
+
+insert into crusts
+values('CRC', 'Blat crocant', 6.5);
+
+insert into crusts
+values('PUF', 'Blat pufos', 6.5);
+
+
+
+
+create table Sizes (size_id char(10) constraint PK_size primary key,
+                    size_description char(10) constraint size_desc not null,
+                    size_price_addition number(5,2));
+                    
+                    
+    
+insert into sizes
+values('MICA', '6 felii', null);  
+
+insert into sizes
+values('MEDIE', '8 felii', 13); 
+
+insert into sizes
+values('MARE', '12 felii', 25.5); 
+
+                                       
+                   
+
+create table Souces (souce_id char(10) constraint PK_sos primary key,
+                     souce_type varchar2(20) constraint sos_type not null,
+                     souce_price_addition number(3,2));
+                                        
+                     
+insert into souces
+values('SW', 'Sos dulce', null);  
+
+insert into souces
+values('HOT', 'Sos picant', 4); 
+
+insert into souces
+values('GAR', 'Sos de usturoi', 4); 
+
+insert into souces
+values('SCH', 'Sos sweet chilli', 4);
+
+insert into souces
+values('BBQ', 'Sos BBQ', 4);
+
+
+create table Pizza (pizza_id char(10) constraint PK_pizza primary key,
+                    crust_id char(10) constraint FK_pizza_1 references Crusts (crust_id),
+                    size_id char(10) constraint FK_pizza_2 references Sizes (size_id),
+                    pizza_name varchar2(20) constraint pizza_name_pz not null,
+                    pizza_price number(8,2) constraint pizza_price_pz not null,
+                    employee_id number(4) constraint FK_pizza_3 references Employees (employee_id));
+                    
+                   
+                  
+insert into pizza
+values('QFNMi', 'NOR', 'MICA', 'Quattro Formaggi', 28.55, 104);
+
+insert into pizza
+values('PIMe', 'ITA', 'MEDIE', 'Pepperoni', 42.95, 108);
+
+insert into pizza
+values('CaPMe', 'PUF', 'MEDIE', 'Carnivora', 52.05, 111);
+
+insert into pizza
+values('DNMa', 'NOR', 'MARE', 'Diavola', 47.45, 113);
+
+insert into pizza
+values('CPMe', 'PHI', 'MEDIE', 'Capriciosa', 45.45, 104);
+
+insert into pizza
+values('PFCMa', 'CRC', 'MARE', 'Prosciutto Funghi', 51.95, 108);
+
+insert into pizza
+values('QSPMi', 'PUF', 'MICA', 'Quattro Stagioni', 35.05, 111);
+
+insert into pizza
+values('VNMe', 'NOR', 'MEDIE', 'Vegetariana', 36.95, 113);
+
+insert into pizza
+values('PFIMa', 'ITA', 'MARE', 'Prosciutto Funghi', 55.95, 104);
+
+insert into pizza
+values('CaPhMi', 'PHI', 'MICA', 'Carnivora', 37.05, 113);          
+
+
+create table Se_serveste_cu (pizza_id char(10) constraint PK_FK_serv_pizza references Pizza (pizza_id),
+                             souce_id char(10) constraint PK_FK_serv_sos references Souces (souce_id));
+                                                       
+                             
+insert into se_serveste_cu
+values('QSPMi','GAR');
+
+insert into se_serveste_cu
+values('QFNMi','SW');
+
+insert into se_serveste_cu
+values('CPMe','HOT');
+
+insert into se_serveste_cu
+values('CaPMe','GAR');
+
+insert into se_serveste_cu
+values('PFCMa','SCH');
+
+insert into se_serveste_cu
+values('QSPMi','SW');
+
+insert into se_serveste_cu
+values('PFCMa','HOT');
+
+insert into se_serveste_cu
+values('CPMe','BBQ');
+
+insert into se_serveste_cu
+values('CaPMe','SW');
+
+
+create table Extra_Toppings (topping_id char(10) constraint PK_topping primary key,
+                             topping_name varchar2(20) constraint name_top not null,
+                             topping_price number(3,2) constraint price_top not null);
+                             
+                             
+                             
+insert into extra_toppings
+values('CHE', 'Branza', 2);
+
+insert into extra_toppings
+values('OL', 'Masilne', 2);
+
+insert into extra_toppings
+values('MSH', 'Ciuperci', 2);
+
+insert into extra_toppings
+values('PER', 'Ardei', 2);
+
+insert into extra_toppings
+values('CN', 'Porumb', 2);
+
+
+
+                             
+create table Are_in_plus (pizza_id char(10) constraint PK_FK_are_pizza references Pizza (pizza_id),
+                          topping_id char(10) constraint PK_FK_are_topping references Extra_Toppings (topping_id));
+                          
+                         
+                          
+insert into are_in_plus
+values('PIMe','CHE');
+
+insert into are_in_plus
+values('DNMa','OL');
+
+insert into are_in_plus
+values('DNMa','MSH');
+
+insert into are_in_plus
+values('CPMe','PER');
+
+insert into are_in_plus
+values('PFCMa','CN');
+
+insert into are_in_plus
+values('PFCMa','CHE');
+
+insert into are_in_plus
+values('CPMe','MSH');
+
+
+
+create table Sides (side_id char(10) constraint PK_side primary key,
+                    side_name varchar2(40) constraint side_name_sd not null,
+                    side_price number(8,2) constraint side_price_sd not null);
+                    
+               
+
+insert into sides
+values('AP', 'Apa Plata', 5);
+
+insert into sides
+values('CP', 'Choco Pizza', 26.65);
+                    
+insert into sides
+values('FN', 'Fanta', 6.5);
+
+insert into sides
+values('SC', 'Soufle de ciocolata', 10.95);
+
+insert into sides
+values('CC', 'Coca Cola', 6.5);
+
+insert into sides
+values('CLC', 'Clatite cu ciocolata', 14.55);
+
+insert into sides
+values('FP', 'Frappe', 12.95);
+
+insert into sides
+values('APP', 'Placinta cu mere', 16.25);
+
+insert into sides
+values('ES', 'Espresso', 8.5);
+
+insert into sides
+values('ICE', 'Inghetata asortata', 10.95);    
+                
+
+                
+                
+create table Drinks 
+as select * from Sides;
+
+delete drinks;
+
+
+insert into drinks
+values('AP', 'Apa Plata', 5);
+                    
+insert into drinks
+values('FN', 'Fanta', 6.5);
+
+insert into drinks
+values('CC', 'Coca Cola', 6.5);
+
+insert into drinks
+values('FP', 'Frappe', 12.95);
+
+insert into drinks
+values('ES', 'Espresso', 8.5);
+
+
+create table Sweets 
+as select * from Sides;
+
+delete sweets;
+
+
+insert into sweets
+values('CP', 'Choco Pizza', 26.65);
+
+insert into sweets
+values('SC', 'Soufle de ciocolata', 10.95);
+
+insert into sweets
+values('CLC', 'Clatite cu ciocolata', 14.55);
+
+insert into sweets
+values('APP', 'Placinta cu mere', 16.25);
+
+insert into sweets
+values('ICE', 'Inghetata asortata', 10.95);
+
+
+
+
+drop sequence id_generator;
+
+create sequence id_generator
+start with 301
+increment by 1
+maxvalue 1000
+nocycle
+nocache;
+
+create table Contine (order_id number(4) constraint PK_FK_cont_ord references Orders (order_id),
+                      pizza_id char(10) constraint PK_FK_cont_pizza references Pizza (pizza_id),
+                      side_id char(10) constraint PK_FK_cont_side references Sides (side_id));
+                   
+insert into contine
+values(id_generator.nextval , 'QFNMi', null);
+
+insert into contine
+values(id_generator.nextval , 'PIMe', null);
+
+insert into contine
+values(id_generator.nextval , 'CaPMe', null);
+
+insert into contine
+values(id_generator.nextval , 'DNMa', null);
+
+insert into contine
+values(id_generator.nextval , 'PIMe', null);
+
+insert into contine
+values(id_generator.nextval , 'PFCMa','CC');
+
+insert into contine
+values(id_generator.nextval , 'QSPMi','SC');
+
+insert into contine
+values(id_generator.nextval , null ,'FP');
+
+insert into contine
+values(id_generator.nextval , null ,'ES');
+
+insert into contine
+values(id_generator.nextval , null ,'FN');
+
+insert into contine
+values(id_generator.nextval , null ,'CP');
+
+insert into contine
+values(id_generator.nextval , 'DNMa' ,'APP');
+
+insert into contine
+values(id_generator.nextval , 'CaPMe' ,'FN');
+
+insert into contine
+values(id_generator.nextval , 'PFCMa','ICE');
+
+insert into contine
+values(id_generator.nextval , 'QSPMi' ,'AP');
+
+insert into contine
+values(id_generator.nextval , 'DNMa' ,'CC');
+
+insert into contine
+values(id_generator.nextval , null ,'FP');
+
+insert into contine
+values(302 , 'CPMe', 'AP');
+
+insert into contine
+values(309 , null ,'APP');
+
+insert into contine
+values(312 , null ,'CC');
+
+
+commit;
+
+
+
+
+--Ex6. Formultai în limbaj natural o problema pe care sa o rezolvati folosind un subprogram stocat independent care sa utilizeze doua tipuri diferite de colectii studiate. Apelati subprogramul.
+
+--Pentru fiecare comanda sa se afiseze numele si tipul de blat ai fiecarei pizze sau sa se afiseze "Nu contine pizza" cand comanda nu contine pizza.
+
+drop procedure ex6;
+drop procedure ex7;
+drop function ex8;
+drop procedure ex9;
+
+SET SERVEROUTPUT ON; 
+CREATE OR REPLACE PROCEDURE ex6 
+    IS
+        --in t1 retin toate coemnzile
+        TYPE t_imbricat IS TABLE OF orders.order_id%type;
+        t1 t_imbricat;
+        
+        --in t2 retin toate pizzele din fiecare comanda din t1
+        TYPE vector IS VARRAY(10) OF pizza.pizza_id%type;
+        t2 vector:= vector();
+        
+        i NUMBER(2):=0;
+        j NUMBER(2):=0;
+        nr NUMBER(2):=0;
+        blat crusts.crust_type%type;
+        nume pizza.pizza_name%type;
+        
+
+    BEGIN
+        SELECT order_id
+        BULK COLLECT INTO t1
+        FROM orders;
+        
+        FOR i in t1.FIRST..t1.LAST LOOP
+            
+            DBMS_OUTPUT.PUT_LINE('Comanda '|| t1(i)||': ');
+            SELECT pizza_id
+            BULK COLLECT INTO t2
+            FROM contine
+            WHERE order_id = t1(i);
+            
+            nr:=0; 
+            FOR j in t2.FIRST..t2.LAST LOOP
+                IF t2(j) IS NOT NULL THEN
+                    SELECT p.pizza_name, c.crust_type
+                    INTO nume, blat 
+                    FROM crusts c, pizza p
+                    WHERE c.crust_id = p.crust_id
+                    AND p.pizza_id = t2(j); 
+                
+                    DBMS_OUTPUT.PUT_LINE('Pizza '|| nume||' cu '|| blat);
+                    nr:= nr+1;
+                END IF;
+            END LOOP;
+            
+            IF nr = 0 THEN 
+                DBMS_OUTPUT.PUT_LINE('Nu contine pizza');
+            END IF;
+            
+            t2.delete;
+            DBMS_OUTPUT.PUT_LINE(' ');
+        END LOOP;
+    END ex6;
+    /
+BEGIN
+    ex6;
+END;
+/
+
+--Ex7. Formulati în limbaj natural o problema pe care sa o rezolvati folosind un subprogram 
+--stocat independent care sa utilizeze 2 tipuri diferite de cursoare studiate, unul dintre acestea 
+--fiind cursor parametrizat. Apelati subprogramul.
+
+
+--Sa se afiseze numele, prenumele si numele jobului angajatilor care au salariul minim mai mare decat o suma data ca parametru si care au fost angajati dupa anul 2000.
+
+
+CREATE OR REPLACE PROCEDURE ex7 (salariu jobs.min_salary%type)
+    IS
+        --in c1 retin id-ul si numele joburilor cu salariul minim mai mare decat salariul dat ca parametru
+        CURSOR c1 IS
+            SELECT job_id, job_title
+            FROM jobs
+            WHERE min_salary > salariu;
+        
+        --in c2 retin numele, prenumele si data angajarii angajatilor pentru fiecare job din c1    
+        CURSOR c2 (job jobs.job_id%type) IS
+            SELECT last_name, first_name, hire_date
+            FROM  employees
+            WHERE job_id = job;
+            
+        v_nume employees.last_name%type;
+        v_prenume employees.first_name%type;
+        v_data employees.hire_date%type;
+    BEGIN
+        FOR i in c1 LOOP
+            open c2(i.job_id);
+            LOOP
+                FETCH c2 INTO v_nume, v_prenume, v_data;
+                EXIT WHEN c2%NOTFOUND;
+                IF to_char(v_data, 'YYYY')>=2000 THEN
+                    DBMS_OUTPUT.PUT_LINE(i.job_title || ' ' || v_nume || ' ' || v_prenume);
+                END IF;
+            END LOOP;
+            CLOSE c2;
+        END LOOP;
+    END ex7;
+    /
+BEGIN
+    ex7(15000);
+END;
+/
+
+
+--Ex8. Formulati în limbaj natural o problema pe care sa o rezolvaai folosind un subprogram 
+--stocat independent de tip functie care sa utilizeze într-o singura comanda SQL 3 dintre 
+--tabelele definite. Definiti minim 2 exceptii. Apelati subprogramul astfel încât sa eviden?ia?i
+--toate cazurile tratate.
+
+--Fiind dat ca parametru numele unui client, sa se afiseze suma totala a comenzilor plasate de acesta. Sa se trateze cazurile in care exista mai multi clienti cu acelasi nume si daca nu exista clienti cu numele dat.
+
+
+CREATE OR REPLACE FUNCTION ex8(v_nume customers.last_name%type)
+    RETURN NUMBER IS rezultat NUMBER(10,2);
+    contor NUMBER;
+    BEGIN
+        --tratare exceptii
+        SELECT COUNT(*)
+        INTO contor
+        FROM customers
+        WHERE last_name = v_nume;
+        
+        IF contor = 0 THEN 
+            RAISE_APPLICATION_ERROR(-20000, 'Nu exista clienti cu numele dat');
+        ELSIF contor>1 THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Exista mai multi clienti cu numele dat');
+        END IF;
+        
+        SELECT SUM(r.receipt_amount)
+        INTO rezultat
+        FROM customers c
+        JOIN orders o ON c.customer_id = o.customer_id
+        JOIN receipts r ON o.order_id = r.order_id
+        AND c.last_name = v_nume;
+         
+        RETURN rezultat;
+    END ex8;
+    /
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(ex8('Corona'));
+    --DBMS_OUTPUT.PUT_LINE(ex8('Coron'));
+    --DBMS_OUTPUT.PUT_LINE(ex8('Dunne'));
+END;
+/
+                
+--1131
+--311  316
+--26.65  53.95
+
+
+--Ex9. Formulati în limbaj natural o problema pe care sa o rezolvati folosind un subprogram 
+--stocat independent de tip procedura care sa utilizeze într-o singura comanda SQL 5 dintre 
+--tabelele definite. Tratati toate excep?iile care pot aparea, incluzând exceptiile NO_DATA_FOUND
+--si TOO_MANY_ROWS. Apelati subprogramul astfel încât sa evidentiati toate cazurile tratate.
+
+
+--Fiind dat ca parametru numele unui client, in cazul in care a plasat comanda online, sa se afiseze numele clientului, orasul, strada si metoda de plata. Sa se trateze cazurile in care nu exista un client cu acest nume, clientul respectiv nu a plasat o comanda online sau exista mai multi clienti cu acest nume care au plasat o comanda online.
+
+
+CREATE OR REPLACE PROCEDURE ex9(nume IN OUT online_customers.last_name%type,
+                                oras OUT locations.city%type,
+                                strada OUT locations.street_name%type,
+                                plata OUT payment_methods.payment_method%type)
+    IS
+        contor NUMBER;
+        exceptie EXCEPTION;
+        
+    BEGIN
+        SELECT COUNT(*)
+        INTO contor
+        FROM customers
+        WHERE last_name = nume;
+        
+        IF contor = 0 THEN
+            RAISE exceptie;
+        END IF;
+        
+        
+        SELECT l.city, l.street_name, p.payment_method
+        INTO oras, strada, plata
+        FROM online_customers c, locations l, orders o, receipts r, payment_methods p
+        WHERE c.location_id = l.location_id
+        AND c.customer_id = o.customer_id
+        AND r.order_id = o.order_id
+        AND r.payment_id = p.payment_id
+        AND c.last_name = nume;
+        
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Nu exista clienti care au plasat comanda online cu numele dat');
+            WHEN TOO_MANY_ROWS THEN
+                RAISE_APPLICATION_ERROR(-20001, 'Exista mai multi clienti care au plasat comanda online cu numele dat');
+            WHEN exceptie THEN
+                RAISE_APPLICATION_ERROR(-20002, 'Nu exista clienti cu numele dat');
+    
+    END ex9;
+    /
+DECLARE
+    v_nume online_customers.last_name%type;
+    v_oras locations.city%type;
+    v_strada locations.street_name%type;
+    v_plata payment_methods.payment_method%type;
+    
+BEGIN
+    --v_nume:='Adkins'; 
+    --v_nume:='Dunne';
+    v_nume:='Rad';
+    --v_nume:='Macias';
+    ex9(v_nume, v_oras, v_strada, v_plata);
+    DBMS_OUTPUT.PUT_LINE(v_nume || ' ' || v_oras || ' ' || v_strada || ' ' || v_plata);
+
+END;
+/
+    
+--Ex10. Definiti un trigger de tip LMD la nivel de comanda. Declansati trigger-ul.
+
+--Trigger care interzice stergerea datelor din tabelul JOBS.
+
+CREATE OR REPLACE TRIGGER ex10
+    BEFORE DELETE ON jobs
+BEGIN
+    RAISE_APPLICATION_ERROR(-20001, 'Este interzisa stergerea datelor din tabelul JOBS');
+END;
+/
+
+DELETE FROM jobs
+WHERE job_id = 'ASC';
+
+select * from jobs;
+
+
+
+--Ex11.Definiti un trigger de tip LMD la nivel de linie. Declansati trigger-ul.
+
+--Trigger care interzice cresterea salariului unui angajat cu mai mult de 10%.
+
+CREATE OR REPLACE TRIGGER ex11
+    BEFORE UPDATE ON employees
+    FOR EACH ROW
+BEGIN
+    IF (:NEW.salary - :OLD.salary > :OLD.salary*(10/100)) THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Salariul nu poate creste cu mai multe de 10%');
+    END IF;
+END;
+/
+
+UPDATE employees
+SET salary = salary + 2000
+WHERE employee_id = 107;
+
+
+
+--Ex12. Definiti un trigger de tip LDD. Declansati trigger-ul.
+
+--Trigger care se declanseaza la fiecare executie de operatii LDD si salveaza modificarile in tabela userB.
+
+
+
+CREATE TABLE userB(nume_bd VARCHAR2(50),
+                    user_logat VARCHAR2(30),
+                    eveniment VARCHAR2(20),
+                    tip_obiect_referit VARCHAR2(30),
+                    nume_obiect_referit VARCHAR2(30),
+                    data TIMESTAMP(3));
+
+CREATE OR REPLACE TRIGGER ex12
+    AFTER CREATE OR DROP OR ALTER ON SCHEMA
+BEGIN
+    INSERT INTO userB
+    VALUES(SYS.DATABASE_NAME, SYS.LOGIN_USER, 
+            SYS.SYSEVENT, SYS.DICTIONARY_OBJ_TYPE, 
+            SYS.DICTIONARY_OBJ_NAME, SYSTIMESTAMP(3));
+END;
+/
+
+ALTER TABLE locations
+ADD country VARCHAR(40);
+
+select * from locations;
+select * from userB;
+
+ALTER TABLE locations
+DROP COLUMN country;
